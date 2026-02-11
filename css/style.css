@@ -302,8 +302,9 @@ h1 {
 
     h1 {
         /* KEY: Use vmin to fit width OR height, whichever is smaller */
-        font-size: clamp(2rem, 18vmin, 15vh);
-        line-height: 0.8;
+        font-size: clamp(2rem, 15vmin, 15vh);
+        line-height: 1.0;
+        letter-spacing: 0.05em;
     }
 
     .line-2 {
