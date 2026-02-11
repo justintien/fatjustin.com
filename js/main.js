@@ -110,15 +110,25 @@ class App {
 
         // Parallax / Interaction
         const lines = document.querySelectorAll('.line');
-        document.addEventListener('mousemove', (e) => {
-            const x = mapRange(e.clientX, 0, window.innerWidth, -30, 30);
-            const y = mapRange(e.clientY, 0, window.innerHeight, -30, 30);
+
+        const handleParallax = (clientX, clientY) => {
+            const x = mapRange(clientX, 0, window.innerWidth, -30, 30);
+            const y = mapRange(clientY, 0, window.innerHeight, -30, 30);
 
             lines.forEach((line, i) => {
                 const factor = (i + 1) * 0.5; // Stagger effect
                 line.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
             });
-        });
+        };
+
+        document.addEventListener('mousemove', (e) => handleParallax(e.clientX, e.clientY));
+
+        // Touch support for gravity/parallax
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches.length > 0) {
+                handleParallax(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
     }
 
     setupKeyboardShortcuts() {
@@ -143,12 +153,30 @@ class App {
         if (!cursor) return;
 
         const moveCursor = (e) => {
-            cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            let clientX, clientY;
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            cursor.style.transform = `translate(${clientX}px, ${clientY}px)`;
         };
 
         document.addEventListener('mousemove', moveCursor);
+        document.addEventListener('touchmove', moveCursor, { passive: true });
+        // Touch: Make cursor solid (active) when touching
+        document.addEventListener('touchstart', (e) => {
+            cursor.classList.add('hover');
+            moveCursor(e);
+        }, { passive: true });
 
-        // Add hover states
+        document.addEventListener('touchend', () => {
+            cursor.classList.remove('hover');
+        });
+
+        // Add hover states for desktop mouse
         const interactives = document.querySelectorAll('a, button, .line');
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
