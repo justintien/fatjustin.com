@@ -1,0 +1,29 @@
+{
+  "name": "Fat Justin",
+  "short_name": "FatJustin",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+        "src": "assets/logo.svg",
+        "type": "image/svg+xml",
+        "sizes": "192x192",
+        "purpose": "any maskable"
+    },
+    {
+        "src": "assets/logo.svg",
+        "type": "image/svg+xml",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+    }
+  ]
+}
